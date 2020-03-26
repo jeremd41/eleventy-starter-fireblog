@@ -1,9 +1,9 @@
 {
   "dir": "ltr",
   "lang": "fr",
-  "name": "Lowtus",
-  "short_name": "Lowtus",
-  "description": "Audits qualité de sites web",
+  "name": "Fireblog",
+  "short_name": "Fireblog",
+  "description": "",
   "scope": "/",
   "start_url": "/",
   "display": "standalone",
