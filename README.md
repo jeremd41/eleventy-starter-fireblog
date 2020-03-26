@@ -1,7 +1,7 @@
 # Eleventy starter theme for fireblog CMS.
 
 Eleventy is a great and simple static site generator: https://www.11ty.dev/
-Fireblog is a new headless CMS dedicated to blogging, with a very simple but powerful writing interface. Try it here for free (one month trial): https://fireblogcms.com/ )
+Fireblog ( https://fireblogcms.com/) is a new headless CMS dedicated to blogging, with a very simple but powerful writing interface. Try beta for free (one month trial): https://app.fireblogcms.com/ ).
 
 ## getting started
 
