@@ -1,5 +1,5 @@
 {
-  "name": "eleventy starter fireblog",
+  "name": "eleventy-starter-fireblog",
   "version": "1.0.0",
   "description": "eleventy starter blog for fireblog",
   "keywords": [],
@@ -7,7 +7,8 @@
   "author": "Bertrand Keller",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx @11ty/eleventy"
   },
   "browserslist": [
     "last 1 Chrome versions",
