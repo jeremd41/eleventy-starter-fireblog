@@ -1,0 +1,32 @@
+{
+  "name": "eleventy starter fireblog",
+  "version": "1.0.0",
+  "description": "eleventy starter blog for fireblog",
+  "keywords": [],
+  "license": "ISC",
+  "author": "Bertrand Keller",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "browserslist": [
+    "last 1 Chrome versions",
+    "last 1 Firefox versions",
+    "last 1 Safari versions",
+    "last 1 Edge versions"
+  ],
+  "dependencies": {
+    "@11ty/eleventy-plugin-rss": "^1.0.7",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
+    "@fullhuman/postcss-purgecss": "^2.1.0",
+    "bulma": "^0.8.1",
+    "dotenv": "^8.2.0",
+    "fs": "0.0.1-security",
+    "fs-extra": "^9.0.0",
+    "html-minifier": "^4.0.0",
+    "moment": "^2.24.0",
+    "node-fetch": "^2.6.0",
+    "node-sass-promise": "^1.0.0",
+    "postcss-nested": "^4.2.1"
+  }
+}

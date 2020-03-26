@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="{{ config.lang }}" class="no-js">
+
+  <head{% if page.url == "/" %} itemscope itemtype="https://schema.org/WebSite"{% endif %}>
+    {#
+  charset and viewport first:
+  https://www.nateberkopec.com/2015/10/21/hacking-head-tags-for-speed-and-profit.html
+  #}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+    <meta name="description" content="{{ renderData.description or description or metadata.description }}">
+    <meta name="generator" content="Eleventy">
+
+    <script>
+      document.documentElement.className = document
+        .documentElement
+        .className
+        .replace(/\bno-js\b/g, '') + 'has-js ';
+    </script>
+
+    {# Google Analytics #}
+    {% if build.env.NODE_ENV === "production" %}
+      <script>
+        window.ga = function () {
+          ga
+            .q
+            .push(arguments)
+        };
+        ga.q = [];
+        ga.l = + new Date;
+        ga('create', 'UA-XXXXXXX-XX', 'auto');
+        ga('set', 'transport', 'beacon');
+        ga('set', 'anonymizeIp', true);
+        if (window.viewport_width > 0) {
+          ga('set', {
+            dimension1: window.screen_density,
+            dimension2: window.viewport_width,
+            dimension3: window.root_font_size
+          });
+        } else {
+          ga('set', {
+            dimension1: window.screen_density,
+            dimension2: 0,
+            dimension3: window.root_font_size
+          });
+        }
+        ga('set', 'dimension4', 'online');
+        ga('send', 'pageview');
+      </script>
+      <script src="https://www.google-analytics.com/analytics.js" async defer></script>
+    {% endif %}
+
+    {# opengraph and Twitter #}
+    {% if page.inputPath == "./post/page.html" %}
+    {% for meta in pages.HTMLMetadata.meta %}
+      {%- if meta.property -%}<meta property="{{ meta.property }}" content="{{ meta.content }}">{% endif %}
+      {%- if meta.name -%}<meta name="{{ meta.name }}" content="{{ meta.content }}">{% endif %}
+    {% endfor %}
+    <title>{{ pages.HTMLMetadata.title }}</title>
+    {%- else -%}
+    <title>{{ page.title }}</title>
+    <meta property="og:site_name" content=""/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:creator" content="@????"/>
+    <meta name="twitter:site" content="@????"/>
+    {%- endif -%}
+
+    {# https://dev.twitter.com/web/overview/widgets-webpage-properties#csp #}
+    <meta name="twitter:widgets:csp" content="on"/>
+
+    <link rel="canonical" href="{{ site.url + page.url }}" itemprop="url"/>
+    <meta property="og:url" content="{{ site.url + page.url }}"/>
+
+    {#
+    https://developers.facebook.com/docs/sharing/best-practices?locale=fr_FR#images
+    https://developers.facebook.com/tools/debug/sharing/
+    #}
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
+
+    <link rel="alternate" type="application/rss+xml" title="Feed for articles only" href="/feeds/articles.xml"/>
+    <link rel="alternate" type="application/rss+xml" title="Feed for links only" href="/feeds/links.xml"/>
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg"/>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    {# webmentions with webmention.io #}
+    <link rel="pingback" href=""/>
+    <link rel="webmention" href=""/>
+
+    {# iOS features #}
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <link rel="apple-touch-icon" href="/favicon.jpg"/>
+    <meta name="apple-mobile-web-app-title" content="Fireblog"/>
+    {# https://timkadlec.com/remembers/2018-06-06-web-watch/ #}
+    <meta name="disabled-adaptations" content="watch"/>
+
+    {# Theme color: https://developers.google.com/web/updates/2014/11/Support-for-theme-color-in-Chrome-39-for-Android #}
+    <meta name="theme-color" content="#663399">
+
+    {# web app manifest #}
+    <link rel="manifest" href="/manifest.webmanifest"/>
+  </head>
+
+  {% set section = section[1] | replace('index.html', 'home') %}
+  <body
+    itemscope
+    itemtype="https://schema.org/{% if "about/" in page.inputPath %}aboutpage{% else %}webpage{% endif %}"
+    class="layout section-{{ section }}"
+  >
+    <div class="skip-links">
+      <a href="#main">Contenu principal</a>
+    </div>
+
+    <header id="header" role="banner">
+      <div class="hero is-small">
+        <div class="hero-head">
+          <nav class="navbar">
+            <div class="container">
+              <div class="navbar-brand">
+                <span class="navbar-burger burger" data-target="navbarMenuHero">
+                  <span></span>
+                  <span></span>
+                  <span></span></span></div>
+              <div id="navbarMenuHero" class="navbar-menu">
+                <div class="navbar-end">
+                  <a class="navbar-item" href="/">{{ config.menuLinks[0].title }}</a>
+                  <a target="_blank" rel="noopener" class="navbar-item" id="back-to-site" href="https://fireblogcms.com">{{ config.menuLinks[1].title }}</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </div>
+        <div class="hero-body">
+          <div class="container">
+            <div>
+              <div class="title is-1">
+                <a href="/">Fireblog demo content</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="columns">
+        <div class="column">
+          <section class="section">
+            <main id="main" role="main">
+              <div class="wrap">
+                {{ content | safe }}
+              </div>
+            </main>
+          </section>
+        </div>
+        <div class="column is-one-third">
+          <aside>
+            <section class="section">
+              <div class="recent-posts is-hidden-mobile">
+                <h3 class="block-title title is-5">Articles récents</h3>
+                <ul>
+                  {% for item in blogposts.slice(0, 4) %}
+                    <li>
+                      <div class="columns is-mobile">
+                        <div class="column is-one-quarter">
+                          <div class="image">
+                            <a href="/post/{{ item.slug }}">
+                              <img aria-hidden="false" src="{{ item.image.url }}" alt="">
+                            </a>
+                          </div>
+                        </div>
+                        <div class="column">
+                          <div>
+                            <h4 class="post-title title is-6">
+                              <a href="/post/{{ item.slug }}">{{ item.title }}</a>
+                            </h4>
+                            <div>
+                              <small>{{ item.date | date_to_long_string }}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="socials">
+                <h3 class="block-title title is-5">{{ config.followUsText }}</h3>
+                <ul>
+                  <li>
+                    <a href="{{ config.socials.linkedin }}" rel="noopener noreferrer" target="_blank"><img src="/assets/images/icon-linkedin.svg" alt="" loading="lazy"></a>
+                  </li>
+                  <li>
+                    <a href="{{ config.socials.twitter }}" rel="noopener noreferrer" target="_blank"><img src="/assets/images/icon-twitter.svg" alt="" loading="lazy"></a>
+                  </li>
+                  <li>
+                    <a href="{{ config.socials.instagram }}" rel="noopener noreferrer" target="_blank"><img src="/assets/images/icon-instagram.svg" alt="" loading="lazy"></a>
+                  </li>
+                  <li>
+                    <a href="{{ config.socials.facebook }}" rel="noopener noreferrer" target="_blank"><img src="/assets/images/icon-facebook.svg" alt="" loading="lazy"></a>
+                  </li>
+                  <li>
+                    <a href="{{ config.socials.youtube }}" rel="noopener noreferrer" target="_blank"><img src="/assets/images/icon-youtube.svg" alt="" loading="lazy"></a>
+                  </li>
+                </ul>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator
+            .serviceWorker
+            .register('/sw.js');
+        });
+
+        navigator
+          .serviceWorker
+          .addEventListener('message', async (event) => {
+            // Optional: ensure the message came from workbox-broadcast-update
+            if (event.data.meta === 'workbox-broadcast-update') {
+              const {cacheName, updatedUrl} = event.data.payload;
+              console.groupCollapsed(`[Page] Updated content in "${cacheName}": ${updatedUrl}`);
+              const cache = await caches.open(cacheName);
+              const updatedResponse = await cache.match(updatedUrl);
+              if (updatedResponse) {
+                const updatedText = await updatedResponse.text();
+                console.log(updatedText);
+              }
+              console.groupEnd();
+            }
+          });
+      }
+    </script>
+  </body>
+
+</html>

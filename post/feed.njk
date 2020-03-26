@@ -1,0 +1,23 @@
+---
+layout: feed
+pagination:
+    data: blogposts
+    size: 10
+    alias: posts
+permalink: feed.xml
+metadata:
+  title: My Blog Title
+  url: http://example.com/
+  author:
+    name: My Name
+    email: myemailaddress@example.com
+---
+{%- for item in posts -%}{%- set absolutePostUrl -%}{{ item.url | url | absoluteUrl(metadata.url) }}{%- endset -%}
+<entry>
+  <title>{{ item.title }}</title>
+  <link href="{{ absolutePostUrl }}"/>
+  <updated>{{ item.date | rssDate }}</updated>
+  <id>{{ absolutePostUrl }}</id>
+  <content type="html">{{ item.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
+</entry>
+{%- endfor -%}
