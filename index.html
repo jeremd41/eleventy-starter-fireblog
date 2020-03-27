@@ -33,12 +33,13 @@ permalink: "{% if pagination.pageNumber > 0 %}/page{{ pagination.pageNumber + 1}
 
 {# pagination #}
   {% if pagination.hrefs | length > 0 %}
-  <ul>
-    {% if pagination.previousPageHref %}
-      <li><a href="{{ pagination.previousPageHref }}">Previous page</a></li>
-    {% endif %}
-    {% if pagination.nextPageHref %}
-      <li><a href="{{ pagination.nextPageHref }}">Next page</a></li>
-    {% endif %}
+  <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  {# {% if pagination.previousPageHref %}<a  class="pagination-previous" href="{{ pagination.previousPageHref }}">Previous page</a>{% endif %}
+  {% if pagination.nextPageHref %}<a class="pagination-next" href="{{ pagination.nextPageHref }}">Next page</a>{% endif %} #}
+  <ul class="pagination-list">
+    {% for pagenumber in pagination.hrefs %}
+      <li><a class="pagination-link{% if page.url == pagenumber %} is-current{% endif %}" aria-label="{% if page.url == pagenumber %}Page {{ loop.index }}{% else %}Goto page {{ loop.index }}{% endif %}" href="{{ pagenumber }}">{{ loop.index }}</a></li>
+    {% endfor %}
   </ul>
+  </nav>
   {% endif %}
