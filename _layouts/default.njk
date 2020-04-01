@@ -8,7 +8,6 @@
   #}
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-    <meta name="description" content="{{ renderData.description or description or metadata.description }}">
     <meta name="generator" content="Eleventy">
 
     <script>
@@ -19,7 +18,7 @@
     </script>
 
     {# Google Analytics #}
-    {% if build.env.NODE_ENV === "production" %}
+    {%- if build.env.NODE_ENV === "production" -%}
       <script>
         window.ga = function () {
           ga
@@ -48,28 +47,36 @@
         ga('send', 'pageview');
       </script>
       <script src="https://www.google-analytics.com/analytics.js" async defer></script>
-    {% endif %}
-
-    {# opengraph and Twitter #}
-    {% if page.inputPath == "./post/page.html" %}
-    {% for meta in pages.HTMLMetadata.meta %}
-      {%- if meta.property -%}<meta property="{{ meta.property }}" content="{{ meta.content }}">{% endif %}
-      {%- if meta.name -%}<meta name="{{ meta.name }}" content="{{ meta.content }}">{% endif %}
-    {% endfor %}
-    <title>{{ pages.HTMLMetadata.title }}</title>
-    {%- else -%}
-    <title>{{ page.title }}</title>
-    <meta property="og:site_name" content=""/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:creator" content="@????"/>
-    <meta name="twitter:site" content="@????"/>
     {%- endif -%}
 
-    {# https://dev.twitter.com/web/overview/widgets-webpage-properties#csp #}
-    <meta name="twitter:widgets:csp" content="on"/>
+    {# opengraph and Twitter #}
+    {%- if pages -%}
+    {%- for meta in pages.HTMLMetadata.meta -%}
+      {%- if meta.property -%}<meta property="{{ meta.property }}" content="{{ meta.content }}">{% endif %}
+      {%- if meta.name -%}<meta name="{{ meta.name }}" content="{{ meta.content }}">{% endif %}
+    {%- endfor -%}
+    <title>{{ pages.title }} | {{ config.site.name }}</title>
+    <meta property="og:title" content="{{ pages.title }}">
+    {%- endif -%}
+    {%- if page.inputPath == "./index.html" -%}
+    <title>{{ title }} | {{ config.site.name }}</title>
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta name="description" content="{{ description }}">
+    {%- endif -%}
+    {%- if posts -%}
+    <title>{{ posts.title }} | {{ config.site.name }}</title>
+    <meta property="og:title" content="{{ posts.title }}">
+    {% endif %}
+    <meta property="og:site_name" content="{{ config.site.name }}"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:creator" content="@{{ config.author.twitter }}"/>
+    <meta name="twitter:site" content="@{{ config.author.twitter }}"/>
 
-    <link rel="canonical" href="{{ site.url + page.url }}" itemprop="url"/>
-    <meta property="og:url" content="{{ site.url + page.url }}"/>
+    {# https://dev.twitter.com/web/overview/widgets-webpage-properties#csp #}
+    <link rel="canonical" href="{{ config.site.url + page.url }}" itemprop="url"/>
+    <meta name="twitter:widgets:csp" content="on"/>
+    <meta property="og:url" content="{{ config.site.url + page.url }}"/>
 
     {#
     https://developers.facebook.com/docs/sharing/best-practices?locale=fr_FR#images
@@ -78,14 +85,9 @@
     <meta property="og:image:width" content="1200"/>
     <meta property="og:image:height" content="630"/>
 
-    <link rel="alternate" type="application/rss+xml" title="Feed for articles only" href="/feeds/articles.xml"/>
-    <link rel="alternate" type="application/rss+xml" title="Feed for links only" href="/feeds/links.xml"/>
+    <link rel="alternate" type="application/rss+xml" title="Feed for articles only" href="/feed.xml"/>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg"/>
     <link rel="stylesheet" href="/assets/css/styles.css">
-
-    {# webmentions with webmention.io #}
-    <link rel="pingback" href=""/>
-    <link rel="webmention" href=""/>
 
     {# iOS features #}
     <meta name="apple-mobile-web-app-capable" content="yes"/>

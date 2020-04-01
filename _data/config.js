@@ -1,6 +1,14 @@
 module.exports = {
     // default language of your site, also used as a html attribute
     lang: "en",
+    author: {
+      name: "John Doe",
+      twitter: "johndoe"
+    },
+    site: {
+      name: "My fabulous blog",
+      url: "https://myblog.com"
+    },
     // how many posts are display per page on post list page
     postsPerPage: 20,
     // links for the top menu
