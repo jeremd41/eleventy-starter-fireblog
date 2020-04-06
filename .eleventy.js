@@ -1,7 +1,5 @@
 require("dotenv").config();
 const moment = require('moment');
-const postcss = require("postcss");
-const autoprefixer = require("autoprefixer");
 
 
 // Filters

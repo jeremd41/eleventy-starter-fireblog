@@ -10,8 +10,8 @@
     "postcss": "postcss assets/css/styles.css -o _site/assets/css/styles.css",
     "css:build": "node-sass --output-style compressed --include-path scss _assets/scss/main.scss assets/css/styles.css",
     "css:watch": "chokidar '_assets/scss/**/*.scss' --command 'npm run css:build'",
-    "eleventy:build": "npx @11ty/eleventy",
-    "eleventy:watch": "npx @11ty/eleventy --serve",
+    "eleventy:build": "eleventy",
+    "eleventy:watch": "eleventy --serve",
     "build": "NODE_ENV=production npm-run-all --sequential css:build eleventy:build postcss",
     "watch": "ELEVENTY_ENV=development npm-run-all -p css:watch eleventy:watch"
   },
@@ -30,6 +30,7 @@
     "chokidar": "^3.3.1",
     "chokidar-cli": "^2.1.0",
     "dotenv": "^8.2.0",
+    "eleventy": "^1.0.6",
     "html-minifier": "^4.0.0",
     "moment": "^2.24.0",
     "node-fetch": "^2.6.0",
