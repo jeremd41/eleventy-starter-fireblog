@@ -7,8 +7,7 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 const postcssclean = require('postcss-clean')({
   level: 1
 })
-console.log(process.env.NODE_ENV)
-console.log(process.env.ELEVENTY_ENV)
+
 module.exports = {
   plugins: [
     require('postcss-preset-env'),
