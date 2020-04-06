@@ -1,6 +1,7 @@
 require("dotenv").config();
 const moment = require('moment');
-const sass = require('./utils/sass-process');
+const postcss = require("postcss");
+const autoprefixer = require("autoprefixer");
 
 
 // Filters
@@ -16,11 +17,6 @@ module.exports = function (eleventyConfig) {
   if (process.env.ELEVENTY_ENV === 'production') {
     eleventyConfig.addTransform('htmlmin', require('./utils/htmlmin.js'))
   }
-
-  // Watching for modificaions in style directory
-  // https://dev.to/mathieuhuot/processing-sass-with-11ty-5a09
-  sass('./scss/main.scss', './assets/css/styles.css');
-
 
   // ------------------------------------------------------------------------
   // Filters

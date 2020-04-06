@@ -2,10 +2,7 @@
 <html lang="{{ config.lang }}" class="no-js">
 
   <head{% if page.url == "/" %} itemscope itemtype="https://schema.org/WebSite"{% endif %}>
-    {#
-  charset and viewport first:
-  https://www.nateberkopec.com/2015/10/21/hacking-head-tags-for-speed-and-profit.html
-  #}
+    {# charset and viewport first: https://www.nateberkopec.com/2015/10/21/hacking-head-tags-for-speed-and-profit.html #}
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
     <meta name="generator" content="Eleventy">
@@ -87,6 +84,7 @@
 
     <link rel="alternate" type="application/rss+xml" title="Feed for articles only" href="/feed.xml"/>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg"/>
+    <link rel='preload' as='style' href='/assets/css/styles.css'/>
     <link rel="stylesheet" href="/assets/css/styles.css">
 
     {# iOS features #}

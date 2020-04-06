@@ -1,16 +1,18 @@
 const purgecss = require('@fullhuman/postcss-purgecss')({
   content: [
-    './src/assets/js/**/*.js',
-    './src/site/**/*.njk',
-    './src/site/**/*.md',
+    './_site/**/*.html',
   ],
   defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
 })
-
+const postcssclean = require('postcss-clean')({
+  level: 1
+})
+console.log(process.env.NODE_ENV)
+console.log(process.env.ELEVENTY_ENV)
 module.exports = {
   plugins: [
-    require('tailwindcss'),
-    require('postcss-nested'),
-    ...(process.env.NODE_ENV === 'production' ? [purgecss] : []),
+    require('postcss-preset-env'),
+    ...(process.env.NODE_ENV === 'production' ? [postcssclean] : []),
+    ...(process.env.NODE_ENV === 'production' ? [purgecss] : [])
   ],
 }
