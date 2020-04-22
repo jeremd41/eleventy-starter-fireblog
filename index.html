@@ -1,10 +1,8 @@
 ---
 layout: default
-title: Fireblog
-description: Description de la page
 pagination:
-    data: blogposts
-    size: 2
+    data: data.posts
+    size: 20
 permalink: "{% if pagination.pageNumber > 0 %}/page{{ pagination.pageNumber + 1}}{% endif %}/index.html"
 ---
 <div class="post-list">

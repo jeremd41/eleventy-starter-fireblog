@@ -5,9 +5,8 @@ const fetch = require("node-fetch");
 const url = process.env.FIREBLOG_GRAPHQL_ENDPOINT;
 let before = "";
 
-// get blogposts
-// see https://www.datocms.com/docs/content-delivery-api/first-request#vanilla-js-example
-async function getAllBlogposts() {
+// get data
+async function getAllData() {
   // max number of records to fetch per query
   const recordsPerQuery = 100;
 
@@ -17,8 +16,8 @@ async function getAllBlogposts() {
   // do we make a query ?
   let makeNewQuery = true;
 
-  // Blogposts array
-  let blogposts = [];
+  // Data array
+  let data = [];
 
   // make queries until makeNewQuery is set to false
   while (makeNewQuery) {
@@ -32,6 +31,18 @@ async function getAllBlogposts() {
         },
         body: JSON.stringify({
           query: `{
+            blog {
+              name
+              description
+              image {
+                url
+                alt
+              }
+              HTMLMetadata(url: "${url}") {
+                title
+                meta
+              }
+            }
             posts(last: 20, before: "${before}"){
               totalCount
               pageInfo {
@@ -49,6 +60,7 @@ async function getAllBlogposts() {
                   title
                   content
                   publishedAt
+                  updatedAt
                   image {
                     url
                     alt
@@ -76,8 +88,9 @@ async function getAllBlogposts() {
         throw new Error("Aborting: Fireblog errors");
       }
 
-      // update blogpost array with the data from the JSON response
-      blogposts = blogposts.concat(response.data.posts.edges);
+      // update array with the data from the JSON response
+      config = data.concat(response.data.blog);
+      blogposts = data.concat(response.data.posts.edges);
 
       // prepare for next query
       recordsToSkip += recordsPerQuery;
@@ -106,9 +119,14 @@ async function getAllBlogposts() {
     };
   });
 
-  // return formatted blogposts
-  return postsFormatted;
+  let result = {
+    "config": config[0],
+    "posts": postsFormatted
+  }
+
+  // return results
+  return result;
 }
 
 // export for 11ty
-module.exports = getAllBlogposts;
+module.exports = getAllData;

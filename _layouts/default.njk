@@ -15,7 +15,7 @@
     </script>
 
     {# Google Analytics #}
-    {%- if build.env.NODE_ENV === "production" -%}
+    {%- if build.env.ELEVENTY_ENV === "production" -%}
       <script>
         window.ga = function () {
           ga
@@ -47,28 +47,22 @@
     {%- endif -%}
 
     {# opengraph and Twitter #}
-    {%- if pages -%}
-    {%- for meta in pages.HTMLMetadata.meta -%}
+    {%- set pagetitle = title -%}
+    {%- set meta = "" -%}
+    {%- if page.inputPath == "./index.html" -%}
+    {%- set pagetitle = title -%}
+    {%- set meta = data.config.HTMLMetadata.meta -%}
+    {%- elif posts -%}
+    {%- set pagetitle = posts.title -%}
+    {%- set meta = posts.HTMLMetadata.meta  -%}
+    {%- endif -%}
+
+    <title>{%- if pagetitle -%}{{ pagetitle | trim }} |{%- endif -%} {{ data.config.name | trim }}</title>
+    <meta property="og:title" content="{{ title }}">
+    {% for meta in meta %}
       {%- if meta.property -%}<meta property="{{ meta.property }}" content="{{ meta.content }}">{% endif %}
       {%- if meta.name -%}<meta name="{{ meta.name }}" content="{{ meta.content }}">{% endif %}
-    {%- endfor -%}
-    <title>{{ pages.title }} | {{ config.site.name }}</title>
-    <meta property="og:title" content="{{ pages.title }}">
-    {%- endif -%}
-    {%- if page.inputPath == "./index.html" -%}
-    <title>{{ title }} | {{ config.site.name }}</title>
-    <meta property="og:title" content="{{ title }}">
-    <meta property="og:description" content="{{ description }}">
-    <meta name="description" content="{{ description }}">
-    {%- endif -%}
-    {%- if posts -%}
-    <title>{{ posts.title }} | {{ config.site.name }}</title>
-    <meta property="og:title" content="{{ posts.title }}">
-    {% endif %}
-    <meta property="og:site_name" content="{{ config.site.name }}"/>
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:creator" content="@{{ config.author.twitter }}"/>
-    <meta name="twitter:site" content="@{{ config.author.twitter }}"/>
+    {% endfor %}
 
     {# https://dev.twitter.com/web/overview/widgets-webpage-properties#csp #}
     <link rel="canonical" href="{{ config.site.url + page.url }}" itemprop="url"/>
@@ -160,7 +154,7 @@
               <div class="recent-posts is-hidden-mobile">
                 <h3 class="block-title title is-5">Articles récents</h3>
                 <ul>
-                  {% for item in blogposts.slice(0, 4) %}
+                  {% for item in data.posts.slice(0, 4) %}
                     <li>
                       <div class="columns is-mobile">
                         <div class="column is-one-quarter">

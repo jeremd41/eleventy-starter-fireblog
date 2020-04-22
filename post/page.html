@@ -1,20 +1,11 @@
 ---
 layout: default
 pagination:
-    data: blogposts
+    data: data.posts
     size: 1
     alias: posts
 permalink: "post/{{ posts.slug }}/"
 ---
-{% set leadImage = posts.image.url %}
-{% if leadImage %}
-<img
-  srcset="{{ leadImage | imgSuffix('320') }} 320w, {{ leadImage | imgSuffix('550') }} 550w"
-  sizes= "(max-width: 550px) calc(100vw - 120px), 550px"
-  src="{{ leadImage }}"
-  class="lead-image"
-  alt="">
-{% endif %}
 
 <div class="post-detail">
   <h1 class="title is-1">{{ posts.title }}</h1>
