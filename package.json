@@ -12,7 +12,7 @@
     "css:watch": "chokidar '_assets/scss/**/*.scss' --command 'npm run css:build'",
     "eleventy:build": "eleventy",
     "eleventy:watch": "eleventy --serve",
-    "build": "NODE_ENV=production npm-run-all --sequential css:build eleventy:build postcss",
+    "build": "ELEVENTY_ENV=production npm-run-all --sequential css:build eleventy:build postcss",
     "watch": "ELEVENTY_ENV=development npm-run-all -p css:watch eleventy:watch"
   },
   "browserslist": [

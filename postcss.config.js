@@ -10,7 +10,7 @@ const postcssclean = require('postcss-clean')({
 
 module.exports = {
   plugins: [
-    ...(process.env.NODE_ENV === 'production' ? [postcssclean] : []),
-    ...(process.env.NODE_ENV === 'production' ? [purgecss] : [])
+    ...(process.env.ELEVENTY_ENV === 'production' ? [postcssclean] : []),
+    ...(process.env.ELEVENTY_ENV === 'production' ? [purgecss] : [])
   ],
 }
